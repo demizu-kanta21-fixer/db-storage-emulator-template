@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  blob:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+    volumes:
+      - ./blob:/data
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --loose"
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    container_name: mssql
+    hostname: mssql
+    user: root
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: vKAWVKsxiXBZ1
+      MSSQL_COLLATION: Japanese_CI_AS
+    volumes:
+      - ./db:/var/opt/mssql/
